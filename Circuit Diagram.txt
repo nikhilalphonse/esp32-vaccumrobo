@@ -1,0 +1,109 @@
+## Circuit Diagram
+
+===================================================================================================
+                                  MASTER CIRCUIT DIAGRAM (PLAIN TEXT)
+===================================================================================================
+
+[1] PRIMARY POWER & LOGIC DISTRIBUTION RAIL
+-------------------------------------------
+
++14.4V Battery (+) ──► [10A Blade Fuse] ──► [Master Switch] ──┬──► [14.4V HIGH-CURRENT POWER BUS]
+                                                              │
+                                                              └──► [XL4015 BUCK IN+]
+                                                                        │
+                                                                 [XL4015 BUCK OUT+] (Tuned to 5.00V)
+                                                                        │
+                                                                        ├──► ESP32 VIN Pin
+                                                                        └──► LiDAR Turret +5V Power Pin
+
+Battery GND (-) ──────────────────────────────────────────────┴──► [COMMON SYSTEM GROUND BUS (GND)]
+                                                                        │
+                                                                        ├──► XL4015 IN- / OUT-
+                                                                        ├──► ESP32 GND Pins
+                                                                        ├──► TB6612 PGND & SGND
+                                                                        ├──► All 4x LR7843 DC IN- / GND
+                                                                        └──► LiDAR GND & Sensor GNDs
+
+
+[2] ESP32 TO LR7843 HIGH-CURRENT MOSFET MODULES (ACTUATORS)
+-----------------------------------------------------------
+
+ESP32 3V3 Pin ───────────────────┬──► LR7843 #1 VCC (Logic Opto Power)
+                                 ├──► LR7843 #2 VCC
+                                 ├──► LR7843 #3 VCC
+                                 └──► LR7843 #4 VCC
+
+ESP32 GPIO 13 (PWM) ────────────► LR7843 #1 PWM (Gate) ──► Suction Turbine Motor (+14.4V Bus / Flyback Diode)
+ESP32 GPIO 23 (Digital) ────────► LR7843 #2 PWM (Gate) ──► Side Sweeper Broom Motor (+14.4V Bus / Flyback Diode)
+ESP32 GPIO 12 (Digital) ────────► LR7843 #3 PWM (Gate) ──► Roller Agitator Brush (+14.4V Bus / Flyback Diode)
+ESP32 GPIO 2  (PWM) ────────────► LR7843 #4 PWM (Gate) ──► Mopping Fluid Dispenser (+14.4V Bus / Flyback Diode)
+
+Note on Flyback Diodes:
+  Connect one 1N5819 diode across every motor's terminal pair:
+  Cathode (bar/stripe) ──► +14.4V Bus
+  Anode                ──► MOSFET Switched Output (Drain / DC OUT-)
+
+
+[3] ESP32 TO TB6612FNG DUAL H-BRIDGE (DRIVE WHEELS)
+---------------------------------------------------
+
++14.4V Power Bus ────────► TB6612 VM Pin  ──┐
+                                            ├── [470µF to 1000µF 25V Bulk Decoupling Capacitor]
+Common Ground Bus ───────► TB6612 PGND/SGND ┘
+
+ESP32 3V3 Pin ───────────► TB6612 VCC (Logic Power)
+ESP32 3V3 Pin ───────────► TB6612 STBY (Enables driver permanently HIGH)
+
+ESP32 GPIO 25 (PWM) ─────► TB6612 PWMA  ──► Left Wheel Speed
+ESP32 GPIO 26 ───────────► TB6612 AIN1  ──► Left Wheel Direction 1   ──► Outputs AO1 & AO2 to Left Motor
+ESP32 GPIO 27 ───────────► TB6612 AIN2  ──► Left Wheel Direction 2
+
+ESP32 GPIO 33 (PWM) ─────► TB6612 PWMB  ──► Right Wheel Speed
+ESP32 GPIO 32 ───────────► TB6612 BIN1  ──► Right Wheel Direction 1  ──► Outputs BO1 & BO2 to Right Motor
+ESP32 GPIO 14 ───────────► TB6612 BIN2  ──► Right Wheel Direction 2
+
+
+[4] SENSORY SAFETY INTERLOCKS & DUSTBIN INPUTS
+----------------------------------------------
+
+Front Left Bumper Sw  ───► ESP32 GPIO 21  ──┐ (Internal INPUT_PULLUP; Contact closes to GND)
+Front Right Bumper Sw ───► ESP32 GPIO 22  ──┤
+Cliff IR Sensor       ───► ESP32 GPIO 19  ──┤
+Dustbin PD31_Hall Sw  ───► ESP32 GPIO 4   ──┤
+Top Clean Button Sw   ───► ESP32 GPIO 18  ──┤
+Top Dock Button Sw    ───► ESP32 GPIO 5   ──┘
+
+Water Level Float:
+  +3.3V ──[10kΩ Pull-Up]──┬──► ESP32 GPIO 15
+                          └──► Float Probe Switch Terminal ──► GND (Closes when water is present)
+
+
+[5] ANALOG VOLTAGE DIVIDERS (BATTERY & CHARGE DOCK SENSING)
+-----------------------------------------------------------
+
+A. 14.4V Main Battery Monitoring:
+  +14.4V Rail ──► [100kΩ Resistor] ──┬──► ESP32 GPIO 34 (ADC1 input-only)
+                                     │
+  Common GND  ──► [ 22kΩ Resistor] ──┘
+
+B. Dock Pickup Plate Voltage Sensing:
+  Chassis Dock Pad (+) ──► [10A Schottky Diode (SS34/SS54)] ──► Battery (+) (Prevents reverse short)
+                       │
+                       └──► [100kΩ Resistor] ──┬──► ESP32 GPIO 35 (ADC1 input-only)
+                                               │
+  Common GND  ────────────► [ 22kΩ Resistor] ──┘
+
+
+[6] 360° LIDAR TURRET INTERFACE
+-------------------------------
+
+LiDAR 5V Power Pin ──────► XL4015 Output (+5.00V)
+LiDAR GND Pin ───────────► Common System GND
+
+LiDAR UART TX ───────────► (If 3.3V Logic) ─────────────────────────► ESP32 GPIO 16 (RX2)
+                           (If 5V TTL) ──► [1kΩ] ──┬──► GPIO 16 (RX2)
+                                                   │
+                                                [2kΩ] ──► GND
+
+ESP32 GPIO 17 (TX2) ─────► LiDAR UART RX (Motor speed command / Enable)
+===================================================================================================
