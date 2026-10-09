@@ -9,26 +9,26 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
    - 2. High-Level Compute Engine (Raspberry Pi 3B+): Handles computationally intensive 2D LiDAR SLAM, autonomous path planning, telemetry aggregation, and web dashboard hosting over Wi-Fi
 ## Core System Features
   Cleaning Subsystem:
-    Vacuum Turbine: High-CFM suction blower driven by an optocoupler-isolated LR7843 MOSFET with variable PWM duty cycle.
-    Dual Brushes: Independent control of the horizontal roller agitator and the perimeter side broom for edge cleaning
-    Mopping & Fluid Control: Peristaltic water pump metering with reservoir fluid-level monitoring.
+    - Vacuum Turbine: High-CFM suction blower driven by an optocoupler-isolated LR7843 MOSFET with variable PWM duty cycle.
+    - Dual Brushes: Independent control of the horizontal roller agitator and the perimeter side broom for edge cleaning
+    - Mopping & Fluid Control: Peristaltic water pump metering with reservoir fluid-level monitoring.
   Safety Reflexes & Interlocks:
-    Emergency Cliff Avoidance: Hardware interrupt pins detect floor elevation drops to stop drive motors instantly.
-    Bumper Collision Reflex: Dual front microswitches trigger an immediate reverse-and-pivot maneuver.
-    Dustbin Interlock: A Hall-effect magnetic sensor (PD31_Hall V1.3) disables the suction turbine if the dustbin is absent
+    - Emergency Cliff Avoidance: Hardware interrupt pins detect floor elevation drops to stop drive motors instantly.
+    - Bumper Collision Reflex: Dual front microswitches trigger an immediate reverse-and-pivot maneuver.
+    - Dustbin Interlock: A Hall-effect magnetic sensor (PD31_Hall V1.3) disables the suction turbine if the dustbin is absent
   Navigation & Localization:
-    360° LiDAR Telemetry: Serial point-cloud capture forwarded via UDP to the compute host for real-time 2D mapping
-    Differential Drive: Dual DC gearmotors driven by a TB6612FNG H-bridge with bulk decoupling protection.
-    Autonomous Docking & Manual Override: Remote touchscreen joystick interface with waypoint navigation back to the charging base coordinate.
+    - 360° LiDAR Telemetry: Serial point-cloud capture forwarded via UDP to the compute host for real-time 2D mapping
+    - Differential Drive: Dual DC gearmotors driven by a TB6612FNG H-bridge with bulk decoupling protection.
+    - Autonomous Docking & Manual Override: Remote touchscreen joystick interface with waypoint navigation back to the charging base coordinate.
 
 ## Communication & Software Stack
   Mobile Node (ESP32):
-    Built using ESP32 Arduino Core with FreeRTOS
-    Core 0 executes network tasks, transmitting LiDAR frames and telemetry packets over Wi-Fi UDP.
-    Core 1 executes deterministic motor PID control, sensor polling, and instant hardware safety cuts.
+    - Built using ESP32 Arduino Core with FreeRTOS
+    - Core 0 executes network tasks, transmitting LiDAR frames and telemetry packets over Wi-Fi UDP.
+    - Core 1 executes deterministic motor PID control, sensor polling, and instant hardware safety cuts.
   Stationary / Compute Node (Raspberry Pi 3B+)
-    Headless 64-bit Linux running a Python-based UDP communications hub and web app server
-    Generates 2D occupancy grid maps using SLAM algorithms and feeds velocity vectors back to the robot over the local network
+    - Headless 64-bit Linux running a Python-based UDP communications hub and web app server
+    - Generates 2D occupancy grid maps using SLAM algorithms and feeds velocity vectors back to the robot over the local network
 ## materials and hardware components used across this autonomous vacuum build
 
   1. Compute & Controllers
