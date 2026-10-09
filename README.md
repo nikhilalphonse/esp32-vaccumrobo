@@ -3,7 +3,7 @@
 ## Project Overview
 This project is an open-source, decoupled autonomous mobile robot (AMR) conversion that repurposes a salvaged robotic vacuum cleaner chassis into a network-controlled, intelligent floor-care platform.
   Instead of relying on proprietary closed-source mainboards, the system implements a distributed two-tier computing architecture:
-    1. Low-Level Real-Time Controller (ESP32): Manages hardware timing, high-frequency PWM switching, safety reflex loops, and raw sensor acquisition.
+   \n 1. Low-Level Real-Time Controller (ESP32): Manages hardware timing, high-frequency PWM switching, safety reflex loops, and raw sensor acquisition.
     2. High-Level Compute Engine (Raspberry Pi 3B+): Handles computationally intensive 2D LiDAR SLAM, autonomous path planning, telemetry aggregation, and web dashboard hosting over Wi-Fi
 ## Core System Features
   Cleaning Subsystem:
@@ -77,6 +77,33 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
        18 AWG Silicone Wire (Red & Black): Flexible, high-current wiring for battery leads, power buses, and motor drivers.
        Dupont / JST-XH Connectors & Pigtails: Wire harnesses for clean connections to factory chassis plugs.
        M2.5 / M3 Nylon Standoffs & Screws: Spacers to rigidly mount all electronics inside the chassis cavity without short-circuit risks.
+
+## list of all the features and capabilities supported by your robot’s hardware and software architecture
+  1. Cleaning Subsystem Features
+       Variable-Speed Vacuum Suction: Multi-level turbine speed control (Quiet, Standard, Turbo, Max) using high-frequency PWM via the optocoupler-isolated LR7843 MOSFET module.
+       Perimeter Side Broom: Active sweeping along baseboards, walls, and corners driven by its independent gearbox via MOSFET switching.
+       Main Agitator Roller Brush: Motorized central cylindrical beater bar for lifting debris from carpet fibers and hard floors into the suction duct.
+       Controlled Mopping & Fluid Dispensing: Metered liquid dispersal onto the trailing mopping pad using a pulsed PWM-driven fluid pump.
+     
+  3. Autonomous & Manual Navigation Features
+       360° Real-Time LiDAR Mapping: Continuous 2D laser environmental scanning via hardware UART, forwarded over UDP for real-time SLAM occupancy grid mapping.
+       Manual Web Control (Virtual Joystick): Real-time remote teleoperation directly from your smartphone, tablet, or PC browser hosted by the Raspberry Pi.
+       Autonomous Coverage Path Planning: Coordinated linear and angular velocity execution for methodical "lawnmower-style" room coverage and perimeter tracking.
+       Autonomous Return-to-Dock Homing: Waypoint coordinate navigation back to the recorded charging base position with terminal creep-and-park alignment.
+     
+  3. Safety, Reflex & Hardware Interlock Features  
+       Cliff & Drop Detection: Downward-pointing infrared reflectance sensors that trigger an immediate hardware emergency stop to prevent stair falls.
+       Tactile Obstacle & Bump Avoidance: Spring-loaded front bumper microswitches that trigger an instant reverse-and-pivot maneuver upon physical impact.
+       Dustbin Presence Interlock: Magnetic Hall-effect sensing (PD31_Hall V1.3) that automatically halts the vacuum blower and roller brush if the bin is missing, protecting the motor from unfiltered debris.
+       Water Tank Reservoir Monitoring: Fluid float/probe sensor checking water levels before pump activation to prevent dry-running the dispenser pump.
+       Motor & FET Overcurrent Protection: 10A blade fuse and flyback snubber diode clamping to shield logic and switching components from inductive motor back-EMF spikes.
+     
+  5. Telemetry, Power & User Interface Features
+     Live Battery Health Telemetry: Real-time analog voltage monitoring (scaled via a calibrated $100\text{ k}\Omega / 22\text{ k}\Omega$ divider to ESP32 ADC) providing percentage tracking and low-battery thresholds.
+     Dock Electrical Contact Sensing: Voltage detection on the chassis charging contact plates via an isolated divider circuit to immediately confirm successful docking.
+     Physical Pushbutton Controls: Top-panel tactile buttons for instant physical Start/Pause, Cleaning Mode toggling, and Return-to-Dock commands.
+     Decoupled UDP Network Architecture: Low-latency, bidirectional telemetry link separating time-critical motor safety tasks (ESP32) from high-compute mapping algorithms (Raspberry Pi).   
+     
 
 
      
