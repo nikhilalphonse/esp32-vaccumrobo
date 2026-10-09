@@ -38,8 +38,8 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
 ## materials and hardware components used across this autonomous vacuum build
 
   * 1. Compute & Controllers
-     -    ESP32 DevKit Board (38-Pin): On-board low-latency microcontroller handling real-time sensor polling, safety reflex interrupts, motor PWM generation, and UDP communication.
-     -   Raspberry Pi 3 (Stationary or Onboard): High-level host computer running the web app interface, remote manual controls, and SLAM/navigation planning over Wi-F
+      - ESP32 DevKit Board (38-Pin): On-board low-latency microcontroller handling real-time sensor polling, safety reflex interrupts, motor PWM generation, and UDP communication.
+      - Raspberry Pi 3 (Stationary or Onboard): High-level host computer running the web app interface, remote manual controls, and SLAM/navigation planning over Wi-F
      
   * 2. Power & Protection
        - 14.4V Lithium-ion Battery Pack: Primary high-current power supply for all motors and logic.
@@ -53,64 +53,64 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
   * 3. Motor Drivers & Power Switches
        - TB6612FNG Dual H-Bridge Motor Driver: Drives the left and right differential drive wheels forward and reverse with speed control.
        - 4x LR7843 Optocoupler-Isolated MOSFET Modules: High-current low-side electronic switches for:
-         - 1. 4x LR7843 Optocoupler-Isolated MOSFET Modules: High-current low-side electronic switches for:
-         - 2. Side broom sweeper motor
-         - 3.Main roller agitator brush motor
-         - 4.Mopping fluid dispenser pump
+         + 1. 4x LR7843 Optocoupler-Isolated MOSFET Modules: High-current low-side electronic switches for:
+         + 2. Side broom sweeper motor
+         + 3.Main roller agitator brush motor
+         + 4.Mopping fluid dispenser pump
      
   * 4. Resistors & Passive Signal Conditioning
        - 2x 100kiloohm Resistors: High-side legs of the voltage dividers for:
-         - 14.4V battery pack voltage monitoring (GPIO 34)
-         - Charging dock contact plate voltage sensing (GPIO 35)
+         + 14.4V battery pack voltage monitoring (GPIO 34)
+         + Charging dock contact plate voltage sensing (GPIO 35)
        - 2x 22kiloohm Resistors: Low-side legs of the voltage dividers (scaling ~16.8V max down to ~~ 3.03V}$ for ESP32 3.3V ADC inputs).
        - 10kilo ohm Resistor: Pull-up resistor for the water reservoir level switch/probe circuit.
        - 1kilo ohm and 2kilo ohm Resistors (Optional): Voltage divider logic level shifter if the LiDAR UART TX pin outputs 5V TTL.
   * 5. Chassis Motors & Actuators (Salvaged Chassis)
-       Left & Right Wheel Drive Gearboxes: Dual brushed DC gearmotors for differential chassis drive.
-       Vacuum Suction Turbine: Central centrifugal blower fan inside the scroll housing.
-       Side Broom Motor: Gearmotor powering the perimeter edge-cleaning brush.
-       Main Roller Brush Motor: Motor driving the center horizontal beater bar.
-       Mopping Pump / Solenoid: Fluid pump dispensing water onto the mopping pad.
-       LiDAR Spin Motor: Small brushed DC motor driving the rotating laser turret pulley.
+       - Left & Right Wheel Drive Gearboxes: Dual brushed DC gearmotors for differential chassis drive.
+       - Vacuum Suction Turbine: Central centrifugal blower fan inside the scroll housing.
+       - Side Broom Motor: Gearmotor powering the perimeter edge-cleaning brush.
+       - Main Roller Brush Motor: Motor driving the center horizontal beater bar.
+       - Mopping Pump / Solenoid: Fluid pump dispensing water onto the mopping pad.
+       - LiDAR Spin Motor: Small brushed DC motor driving the rotating laser turret pulley.
   * 6. Sensors & User Interface
-       360° LiDAR Turret Assembly: Optical distance sensor communicating via UART (Serial2 on GPIO 16/17).
-       PD31_Hall V1.3 Magnetic Sensor Board: Hall-effect sensor detecting the presence of the dustbin magnet.
-       Front Bumper Microswitches: Left and right spring-loaded collision limit switches.
-       Cliff Detection IR Sensors: Downward-pointing infrared reflectance sensors to detect drop-offs and stairs.
-       Water Tank Level Float / Probes: Fluid contact sensor to verify water tank availability before pumping.
-       Chassis Charging Pickup Plates: Spring-loaded metal contact pads on the base of the robot.
+       - 360° LiDAR Turret Assembly: Optical distance sensor communicating via UART (Serial2 on GPIO 16/17).
+       - PD31_Hall V1.3 Magnetic Sensor Board: Hall-effect sensor detecting the presence of the dustbin magnet.
+       - Front Bumper Microswitches: Left and right spring-loaded collision limit switches.
+       - Cliff Detection IR Sensors: Downward-pointing infrared reflectance sensors to detect drop-offs and stairs.
+       - Water Tank Level Float / Probes: Fluid contact sensor to verify water tank availability before pumping.
+       - Chassis Charging Pickup Plates: Spring-loaded metal contact pads on the base of the robot.
   * 7. Prototyping & Assembly Hardware
-       Perfboard / Stripboard (Protoboard): Baseboard for soldering permanent, vibration-resistant power buses and sockets.
-       Female Pin Header Strips: Sockets for plugging in the ESP32 and TB6612 driver without soldering them directly to the board.
-       18 AWG Silicone Wire (Red & Black): Flexible, high-current wiring for battery leads, power buses, and motor drivers.
-       Dupont / JST-XH Connectors & Pigtails: Wire harnesses for clean connections to factory chassis plugs.
-       M2.5 / M3 Nylon Standoffs & Screws: Spacers to rigidly mount all electronics inside the chassis cavity without short-circuit risks.
+       - Perfboard / Stripboard (Protoboard): Baseboard for soldering permanent, vibration-resistant power buses and sockets.
+       - Female Pin Header Strips: Sockets for plugging in the ESP32 and TB6612 driver without soldering them directly to the board.
+       - 18 AWG Silicone Wire (Red & Black): Flexible, high-current wiring for battery leads, power buses, and motor drivers.
+       - Dupont / JST-XH Connectors & Pigtails: Wire harnesses for clean connections to factory chassis plugs.
+       - M2.5 / M3 Nylon Standoffs & Screws: Spacers to rigidly mount all electronics inside the chassis cavity without short-circuit risks.
 
 ## list of all the features and capabilities supported by your robot’s hardware and software architecture
-  1. Cleaning Subsystem Features
-       Variable-Speed Vacuum Suction: Multi-level turbine speed control (Quiet, Standard, Turbo, Max) using high-frequency PWM via the optocoupler-isolated LR7843 MOSFET module.
-       Perimeter Side Broom: Active sweeping along baseboards, walls, and corners driven by its independent gearbox via MOSFET switching.
-       Main Agitator Roller Brush: Motorized central cylindrical beater bar for lifting debris from carpet fibers and hard floors into the suction duct.
-       Controlled Mopping & Fluid Dispensing: Metered liquid dispersal onto the trailing mopping pad using a pulsed PWM-driven fluid pump.
+  * 1. Cleaning Subsystem Features
+       - Variable-Speed Vacuum Suction: Multi-level turbine speed control (Quiet, Standard, Turbo, Max) using high-frequency PWM via the optocoupler-isolated LR7843 MOSFET module.
+       - Perimeter Side Broom: Active sweeping along baseboards, walls, and corners driven by its independent gearbox via MOSFET switching.
+       - Main Agitator Roller Brush: Motorized central cylindrical beater bar for lifting debris from carpet fibers and hard floors into the suction duct.
+       - Controlled Mopping & Fluid Dispensing: Metered liquid dispersal onto the trailing mopping pad using a pulsed PWM-driven fluid pump.
      
-  3. Autonomous & Manual Navigation Features
-       360° Real-Time LiDAR Mapping: Continuous 2D laser environmental scanning via hardware UART, forwarded over UDP for real-time SLAM occupancy grid mapping.
-       Manual Web Control (Virtual Joystick): Real-time remote teleoperation directly from your smartphone, tablet, or PC browser hosted by the Raspberry Pi.
-       Autonomous Coverage Path Planning: Coordinated linear and angular velocity execution for methodical "lawnmower-style" room coverage and perimeter tracking.
-       Autonomous Return-to-Dock Homing: Waypoint coordinate navigation back to the recorded charging base position with terminal creep-and-park alignment.
+  * 2. Autonomous & Manual Navigation Features
+       - 360° Real-Time LiDAR Mapping: Continuous 2D laser environmental scanning via hardware UART, forwarded over UDP for real-time SLAM occupancy grid mapping.
+       - Manual Web Control (Virtual Joystick): Real-time remote teleoperation directly from your smartphone, tablet, or PC browser hosted by the Raspberry Pi.
+       - Autonomous Coverage Path Planning: Coordinated linear and angular velocity execution for methodical "lawnmower-style" room coverage and perimeter tracking.
+       - Autonomous Return-to-Dock Homing: Waypoint coordinate navigation back to the recorded charging base position with terminal creep-and-park alignment.
      
-  3. Safety, Reflex & Hardware Interlock Features  
-       Cliff & Drop Detection: Downward-pointing infrared reflectance sensors that trigger an immediate hardware emergency stop to prevent stair falls.
-       Tactile Obstacle & Bump Avoidance: Spring-loaded front bumper microswitches that trigger an instant reverse-and-pivot maneuver upon physical impact.
-       Dustbin Presence Interlock: Magnetic Hall-effect sensing (PD31_Hall V1.3) that automatically halts the vacuum blower and roller brush if the bin is missing, protecting the motor from unfiltered debris.
-       Water Tank Reservoir Monitoring: Fluid float/probe sensor checking water levels before pump activation to prevent dry-running the dispenser pump.
-       Motor & FET Overcurrent Protection: 10A blade fuse and flyback snubber diode clamping to shield logic and switching components from inductive motor back-EMF spikes.
+  * 3. Safety, Reflex & Hardware Interlock Features  
+       - Cliff & Drop Detection: Downward-pointing infrared reflectance sensors that trigger an immediate hardware emergency stop to prevent stair falls.
+       - Tactile Obstacle & Bump Avoidance: Spring-loaded front bumper microswitches that trigger an instant reverse-and-pivot maneuver upon physical impact.
+       - Dustbin Presence Interlock: Magnetic Hall-effect sensing (PD31_Hall V1.3) that automatically halts the vacuum blower and roller brush if the bin is missing, protecting the motor from unfiltered debris.
+       - Water Tank Reservoir Monitoring: Fluid float/probe sensor checking water levels before pump activation to prevent dry-running the dispenser pump.
+       - Motor & FET Overcurrent Protection: 10A blade fuse and flyback snubber diode clamping to shield logic and switching components from inductive motor back-EMF spikes.
      
-  5. Telemetry, Power & User Interface Features
-     Live Battery Health Telemetry: Real-time analog voltage monitoring (scaled via a calibrated $100\text{ k}\Omega / 22\text{ k}\Omega$ divider to ESP32 ADC) providing percentage tracking and low-battery thresholds.
-     Dock Electrical Contact Sensing: Voltage detection on the chassis charging contact plates via an isolated divider circuit to immediately confirm successful docking.
-     Physical Pushbutton Controls: Top-panel tactile buttons for instant physical Start/Pause, Cleaning Mode toggling, and Return-to-Dock commands.
-     Decoupled UDP Network Architecture: Low-latency, bidirectional telemetry link separating time-critical motor safety tasks (ESP32) from high-compute mapping algorithms (Raspberry Pi).   
+  * 5. Telemetry, Power & User Interface Features
+     - Live Battery Health Telemetry: Real-time analog voltage monitoring (scaled via a calibrated $100\text{ k}\Omega / 22\text{ k}\Omega$ divider to ESP32 ADC) providing percentage tracking and low-battery thresholds.
+     - Dock Electrical Contact Sensing: Voltage detection on the chassis charging contact plates via an isolated divider circuit to immediately confirm successful docking.
+     - Physical Pushbutton Controls: Top-panel tactile buttons for instant physical Start/Pause, Cleaning Mode toggling, and Return-to-Dock commands.
+     - Decoupled UDP Network Architecture: Low-latency, bidirectional telemetry link separating time-critical motor safety tasks (ESP32) from high-compute mapping algorithms (Raspberry Pi).   
      
 
 
