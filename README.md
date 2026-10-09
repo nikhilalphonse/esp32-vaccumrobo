@@ -18,22 +18,7 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
     360° LiDAR Telemetry: Serial point-cloud capture forwarded via UDP to the compute host for real-time 2D mapping
     Differential Drive: Dual DC gearmotors driven by a TB6612FNG H-bridge with bulk decoupling protection.
     Autonomous Docking & Manual Override: Remote touchscreen joystick interface with waypoint navigation back to the charging base coordinate.
-## Hardware Architecture & Power Rail
-   ┌────────────────────────────────────────────────────────────────────────┐
-   │                      POWER DISTRIBUTION BUS                            │
-   │                                                                        │
-   │  14.4V Li-ion Pack ──► [10A Blade Fuse] ──► [Master Switch]            │
-   │                                  │                                     │
-   │          ┌───────────────────────┼───────────────────────┐             │
-   │          ▼                       ▼                       ▼             │
-   │    XL4015 Buck              4x LR7843 MOSFET        TB6612FNG (VM)     │
-   │  (Step-down to 5.0V)     (14.4V Inductive Rail)  (with 470µF-1000µF)   │
-   │          │                       │                       │             │
-   │          ├─► ESP32 (VIN)         ├─► Suction Blower      ├─► Left Motor│
-   │          └─► LiDAR Motor & Opto  ├─► Roller Brush        └─► Right Mot.│
-   │                                  ├─► Side Broom                        │
-   │                                  └─► Water Pump                        │
-   └────────────────────────────────────────────────────────────────────────┘
+
 ## Communication & Software Stack
   Mobile Node (ESP32):
     Built using ESP32 Arduino Core with FreeRTOS
