@@ -1,0 +1,16 @@
+## Hardware Architecture & Power Rail
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │                      POWER DISTRIBUTION BUS                            │
+   │                                                                        │
+   │  14.4V Li-ion Pack ──► [10A Blade Fuse] ──► [Master Switch]            │
+   │                                  │                                     │
+   │          ┌───────────────────────┼───────────────────────┐             │
+   │          ▼                       ▼                       ▼             │
+   │    XL4015 Buck              4x LR7843 MOSFET        TB6612FNG (VM)     │
+   │  (Step-down to 5.0V)     (14.4V Inductive Rail)  (with 470µF-1000µF)   │
+   │          │                       │                       │             │
+   │          ├─► ESP32 (VIN)         ├─► Suction Blower      ├─► Left Motor│
+   │          └─► LiDAR Motor & Opto  ├─► Roller Brush        └─► Right Mot.│
+   │                                  ├─► Side Broom                        │
+   │                                  └─► Water Pump                        │
+   └────────────────────────────────────────────────────────────────────────┘
