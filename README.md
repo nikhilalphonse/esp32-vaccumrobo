@@ -2,9 +2,11 @@
 
 ## Project Overview
 This project is an open-source, decoupled autonomous mobile robot (AMR) conversion that repurposes a salvaged robotic vacuum cleaner chassis into a network-controlled, intelligent floor-care platform.
+
+
   Instead of relying on proprietary closed-source mainboards, the system implements a distributed two-tier computing architecture:
-   \n 1. Low-Level Real-Time Controller (ESP32): Manages hardware timing, high-frequency PWM switching, safety reflex loops, and raw sensor acquisition.
-    2. High-Level Compute Engine (Raspberry Pi 3B+): Handles computationally intensive 2D LiDAR SLAM, autonomous path planning, telemetry aggregation, and web dashboard hosting over Wi-Fi
+   - 1. Low-Level Real-Time Controller (ESP32): Manages hardware timing, high-frequency PWM switching, safety reflex loops, and raw sensor acquisition.
+   - 2. High-Level Compute Engine (Raspberry Pi 3B+): Handles computationally intensive 2D LiDAR SLAM, autonomous path planning, telemetry aggregation, and web dashboard hosting over Wi-Fi
 ## Core System Features
   Cleaning Subsystem:
     Vacuum Turbine: High-CFM suction blower driven by an optocoupler-isolated LR7843 MOSFET with variable PWM duty cycle.
