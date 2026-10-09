@@ -9,9 +9,9 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
    - 2. High-Level Compute Engine (Raspberry Pi 3B+): Handles computationally intensive 2D LiDAR SLAM, autonomous path planning, telemetry aggregation, and web dashboard hosting over Wi-Fi
 ## Core System Features
   Cleaning Subsystem:
-    - Vacuum Turbine: High-CFM suction blower driven by an optocoupler-isolated LR7843 MOSFET with variable PWM duty cycle.
-    - Dual Brushes: Independent control of the horizontal roller agitator and the perimeter side broom for edge cleaning
-    - Mopping & Fluid Control: Peristaltic water pump metering with reservoir fluid-level monitoring.
+   - Vacuum Turbine: High-CFM suction blower driven by an optocoupler-isolated LR7843 MOSFET with variable PWM duty cycle.
+   - Dual Brushes: Independent control of the horizontal roller agitator and the perimeter side broom for edge cleaning
+   - Mopping & Fluid Control: Peristaltic water pump metering with reservoir fluid-level monitoring.
   Safety Reflexes & Interlocks:
     - Emergency Cliff Avoidance: Hardware interrupt pins detect floor elevation drops to stop drive motors instantly.
     - Bumper Collision Reflex: Dual front microswitches trigger an immediate reverse-and-pivot maneuver.
