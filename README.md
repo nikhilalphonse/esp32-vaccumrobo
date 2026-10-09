@@ -37,9 +37,9 @@ This project is an open-source, decoupled autonomous mobile robot (AMR) conversi
    - Generates 2D occupancy grid maps using SLAM algorithms and feeds velocity vectors back to the robot over the local network
 ## materials and hardware components used across this autonomous vacuum build
 
-  1. Compute & Controllers
-       ESP32 DevKit Board (38-Pin): On-board low-latency microcontroller handling real-time sensor polling, safety reflex interrupts, motor PWM generation, and UDP communication.
-       Raspberry Pi 3 (Stationary or Onboard): High-level host computer running the web app interface, remote manual controls, and SLAM/navigation planning over Wi-F
+  - 1. Compute & Controllers
+   -    ESP32 DevKit Board (38-Pin): On-board low-latency microcontroller handling real-time sensor polling, safety reflex interrupts, motor PWM generation, and UDP communication.
+   -   Raspberry Pi 3 (Stationary or Onboard): High-level host computer running the web app interface, remote manual controls, and SLAM/navigation planning over Wi-F
      
   3. Power & Protection
        14.4V Lithium-ion Battery Pack: Primary high-current power supply for all motors and logic.
